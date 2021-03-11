@@ -25,7 +25,7 @@ npm install --save-dev eslint-plugin-react-xhooks
     "react-xhooks/exhaustive-deps": [
       2,
       {
-        "staticValueHooks": "(usePersistFn|useValueRef|)"
+        "staticValueHooks": "(usePersistFn|useValueRef|useInstanceRef)"
       }
     ]
   }

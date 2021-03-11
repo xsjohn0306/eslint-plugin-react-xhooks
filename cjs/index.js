@@ -11,7 +11,7 @@
 
 
 
-if (process.env.NODE_ENV !== "production") {
+// if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
@@ -721,6 +721,9 @@ var ExhaustiveDeps = {
       properties: {
         additionalHooks: {
           type: 'string'
+        },
+        staticValueHooks: {
+          type: 'string'
         }
       }
     }]
@@ -728,8 +731,10 @@ var ExhaustiveDeps = {
   create: function (context) {
     // Parse the `additionalHooks` regex.
     var additionalHooks = context.options && context.options[0] && context.options[0].additionalHooks ? new RegExp(context.options[0].additionalHooks) : undefined;
+    var staticValueHooks = context.options && context.options[0] && context.options[0].staticValueHooks ? new RegExp(context.options[0].staticValueHooks) : undefined;
     var options = {
-      additionalHooks: additionalHooks
+      additionalHooks: additionalHooks,
+      staticValueHooks: staticValueHooks
     }; // Should be shared between visitors.
 
     var setStateCallSites = new WeakMap();
@@ -908,7 +913,15 @@ var ExhaustiveDeps = {
         var _callee = callee,
             name = _callee.name;
 
-        if (name === 'useRef' && id.type === 'Identifier') {
+        if (
+          (
+            name === 'useRef'
+            || (
+              options && options.staticValueHooks && options.staticValueHooks.test(name)
+            )
+          )
+          && id.type === 'Identifier'
+        ) {
           // useRef() return value is static.
           return true;
         } else if (name === 'useState' || name === 'useReducer') {
@@ -2143,10 +2156,10 @@ function isAncestorNodeOf(a, b) {
 
 var configs = {
   recommended: {
-    plugins: ['react-hooks'],
+    plugins: ['react-xhooks'],
     rules: {
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn'
+      'react-xhooks/rules-of-hooks': 'error',
+      'react-xhooks/exhaustive-deps': 'warn'
     }
   }
 };
@@ -2158,4 +2171,4 @@ var rules = {
 exports.configs = configs;
 exports.rules = rules;
   })();
-}
+// }
