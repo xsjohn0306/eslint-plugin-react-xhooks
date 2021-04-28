@@ -12,7 +12,7 @@ npm install --save-dev eslint-plugin-react-xhooks
 
 ## 使用
 
-- 添加插件 `markup-replace` 到 `.eslintrc` 文件的 `plugins` 中
+- 添加插件 `react-xhooks` 到 `.eslintrc` 文件的 `plugins` 中
 - 添加配置 `staticValueHooks`
 
 ```json
@@ -25,7 +25,7 @@ npm install --save-dev eslint-plugin-react-xhooks
     "react-xhooks/exhaustive-deps": [
       2,
       {
-        "staticValueHooks": "(usePersistFn|useValueRef|useInstanceRef)"
+        "staticValueHooks": "(usePersistFn|useValueRef)"
       }
     ]
   }
